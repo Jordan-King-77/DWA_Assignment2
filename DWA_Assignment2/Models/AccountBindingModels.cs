@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Newtonsoft.Json;
 
@@ -32,13 +33,37 @@ namespace DWA_Assignment2.Models
         public string ConfirmPassword { get; set; }
     }
 
-    public class RegisterBindingModel
+    public class RegisterBindingModel : IValidatableObject
     {
+        [Required(ErrorMessage = "The first name is required")]
+        [Display(Name = "First Name")]
+        public string FirstName { get; set; }
+
+        [Required(ErrorMessage = "The last name is required")]
+        [Display(Name = "Last Name")]
+        public string LastName { get; set; }
+
+        [Required(ErrorMessage = "The Gender is required")]
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
+
+        [Required(ErrorMessage = "The address is required")]
+        [Display(Name = "Address")]
+        public string Address { get; set; }
+
+        [Required(ErrorMessage = "The date of birth is required")]
+        [Display(Name = "Date Of Birth")]
+        public string DateOfBirth { get; set; }
+
+        [JsonIgnore]
+        public DateTime DateOfBirthDT { get; set; }
+
         [Required]
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-
+        [Display(Name = "Select Role")]
+        public string SelectedRole { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
@@ -50,6 +75,19 @@ namespace DWA_Assignment2.Models
         [Display(Name = "Confirm password")]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            DateTime d;
+            if(!DateTime.TryParse(DateOfBirth, out d))
+            {
+                yield return new ValidationResult("Date format could not be parsed");
+            }
+            else
+            {
+                DateOfBirthDT = d;
+            }
+        }
     }
 
     public class RegisterExternalBindingModel

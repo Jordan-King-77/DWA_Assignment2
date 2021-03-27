@@ -328,7 +328,16 @@ namespace DWA_Assignment2.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser()
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName,
+                Gender = model.Gender,
+                Address = model.Address,
+                DateOfBirth = model.DateOfBirthDT
+            };
 
             IdentityResult result = await UserManager.CreateAsync(user, model.Password);
 
@@ -336,6 +345,8 @@ namespace DWA_Assignment2.Controllers
             {
                 return GetErrorResult(result);
             }
+
+            await UserManager.AddToRoleAsync(user.Id, model.SelectedRole);
 
             return Ok();
         }
