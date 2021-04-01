@@ -351,6 +351,22 @@ namespace DWA_Assignment2.Controllers
             return Ok();
         }
 
+        //// GET api/Account/AdminLoggedInTest
+        //[Authorize(Roles = "Club Official")]
+        //[Route("GetAdminLoggedInTest")]
+        //public IEnumerable<string> GetAdminLoggedInTest()
+        //{
+        //    return new string[] { "Returned", "Admin Logged In" };
+        //}
+
+        ////GET api/Account/ParentLoggedInTest
+        //[Authorize(Roles = "Parent")]
+        //[Route("GetParentLoggedInTest")]
+        //public IEnumerable<string> GetParentLoggedInTest()
+        //{
+        //    return new string[] { "Returned", "Parent Logged In" };
+        //}
+
         // POST api/Account/RegisterExternal
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
