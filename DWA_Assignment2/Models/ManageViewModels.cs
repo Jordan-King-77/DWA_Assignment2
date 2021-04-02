@@ -42,4 +42,13 @@ namespace DWA_Assignment2.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
     }
+
+    public class UpdateFamilyGroupViewModel
+    {
+        [Display(Name = "Group Name")]
+        public string GroupName { get; set; }
+
+        [Display(Name = "Phone Number")]
+        public string PhoneNumber { get; set; }
+    }
 }

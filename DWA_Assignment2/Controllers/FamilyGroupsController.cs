@@ -49,35 +49,55 @@ namespace DWA_Assignment2.Controllers
 
         // PUT: api/FamilyGroups/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutFamilyGroup(int id, FamilyGroup familyGroup)
+        public IHttpActionResult PutFamilyGroup(int id, UpdateFamilyGroupViewModel model /*FamilyGroup familyGroup*/)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != familyGroup.GroupId)
+            var group = famGroupRP.Find(id);
+
+            if(group == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            try
+            if (model.GroupName != "")
             {
-                famGroupRP.Update(familyGroup);
+                group.GroupName = model.GroupName;
             }
-            catch (DbUpdateConcurrencyException)
+            if (model.PhoneNumber != "")
             {
-                if (!FamilyGroupExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                group.PhoneNumber = model.PhoneNumber;
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            famGroupRP.Update(group);
+
+            return Ok();
+
+            //if (id != familyGroup.GroupId)
+            //{
+            //    return BadRequest();
+            //}
+
+            //try
+            //{
+            //    famGroupRP.Update(familyGroup);
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!FamilyGroupExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/FamilyGroups
