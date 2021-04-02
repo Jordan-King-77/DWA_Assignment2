@@ -99,7 +99,7 @@ namespace DWA_Assignment2.Migrations
                     LastName = "Colins",
                     Gender = "Male",
                     Address = "Birmingham",
-                    DateOfBirth = new DateTime(1980, 10, 10)
+                    DateOfBirth = new DateTime(2011, 10, 10)
                 };
 
                 manager.Create(u1, "Colin1!");
@@ -118,7 +118,7 @@ namespace DWA_Assignment2.Migrations
                     LastName = "Colins",
                     Gender = "Male",
                     Address = "Birmingham",
-                    DateOfBirth = new DateTime(1980, 10, 10)
+                    DateOfBirth = new DateTime(2012, 10, 10)
                 };
 
                 manager.Create(u2, "David1!");
@@ -137,7 +137,7 @@ namespace DWA_Assignment2.Migrations
                     LastName = "Colins",
                     Gender = "Male",
                     Address = "Birmingham",
-                    DateOfBirth = new DateTime(1980, 10, 10)
+                    DateOfBirth = new DateTime(2014, 10, 10)
                 };
 
                 manager.Create(u3, "Alex1!");
