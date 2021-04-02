@@ -43,6 +43,7 @@ namespace DWA_Assignment2.Models
         public string PhoneNumber { get; set; }
     }
 
+
     public class UpdateFamilyGroupViewModel
     {
         [Display(Name = "Group Name")]
@@ -51,4 +52,58 @@ namespace DWA_Assignment2.Models
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
     }
+
+    public class MeetViewModel : IValidatableObject
+    {
+        [JsonIgnore]
+        [Display(Name = "Meet Id")]
+        public int MeetId { get; set; }
+
+        [Required(ErrorMessage = "The name of the meet is required")]
+        [Display(Name = "Meet Name")]
+        public string Name { get; set; }
+
+        [Required(ErrorMessage = "The date of the meet is required")]
+        [Display(Name = "Meet Date")]
+        public string DateString { get; set; }
+
+        [JsonIgnore]
+        [Required(ErrorMessage = "Provided date could not be parsed. Please try another format")]
+        public DateTime Date { get; set; }
+
+        [Required(ErrorMessage = "The venue of the meet is required")]
+        [Display(Name = "Meet Venue")]
+        public string Venue { get; set; }
+
+        [Required(ErrorMessage = "The pool length is required")]
+        [Display(Name = "Pool Length")]
+        public string PoolLength { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            DateTime d;
+            if (!DateTime.TryParse(DateString, out d))
+            {
+                yield return new ValidationResult("Date format could not be parsed");
+            }
+            else
+            {
+                Date = d;
+            }
+        }
+    }
+
+
+    //public class LaneViewModel : IValidatableObject
+    //{
+    //    [Display(Name = "Lane Id")]
+    //    public int EventId { get; set; }
+
+    //    [Required]
+
+    //    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    //    {
+    //        throw new NotImplementedException();
+    //    }
+    //}
 }

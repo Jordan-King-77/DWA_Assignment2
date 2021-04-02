@@ -49,7 +49,7 @@ namespace DWA_Assignment2.Controllers
 
         // PUT: api/FamilyGroups/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutFamilyGroup(int id, UpdateFamilyGroupViewModel model /*FamilyGroup familyGroup*/)
+        public IHttpActionResult PutFamilyGroup(int id, UpdateFamilyGroupViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -75,29 +75,6 @@ namespace DWA_Assignment2.Controllers
             famGroupRP.Update(group);
 
             return Ok();
-
-            //if (id != familyGroup.GroupId)
-            //{
-            //    return BadRequest();
-            //}
-
-            //try
-            //{
-            //    famGroupRP.Update(familyGroup);
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!FamilyGroupExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
-            //return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/FamilyGroups
