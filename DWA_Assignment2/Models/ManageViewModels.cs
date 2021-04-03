@@ -231,4 +231,27 @@ namespace DWA_Assignment2.Models
             eveRP.Dispose();
         }
     }
+
+    public class UpdateSwimmerTimeViewModel : IValidatableObject
+    {
+        [Display(Name = "Swimmer Time")]
+        [Required(ErrorMessage = "Please enter the swimmer's time")]
+        public string SwimmerTimeString { get; set; }
+        [JsonIgnore]
+        public TimeSpan SwimmerTime { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            TimeSpan laneTime;
+
+            if (!TimeSpan.TryParseExact(SwimmerTimeString, @"mm\:ss\.ff", null, out laneTime))
+            {
+                yield return new ValidationResult("Unable to parse the entered time. Please use the format mm/ss/ff");
+            }
+            else
+            {
+                SwimmerTime = laneTime;
+            }
+        }
+    }
 }

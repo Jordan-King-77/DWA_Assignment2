@@ -46,40 +46,53 @@ namespace DWA_Assignment2.Controllers
             return Ok(lane);
         }
 
-        //// PUT: api/Lanes/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutLane(int id, Lane lane)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        // PUT: api/Lanes/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutLane(int id, UpdateSwimmerTimeViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    if (id != lane.LaneId)
-        //    {
-        //        return BadRequest();
-        //    }
+            var lane = laneRP.Find(id);
 
-        //    db.Entry(lane).State = EntityState.Modified;
+            if(lane == null)
+            {
+                return NotFound();
+            }
 
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!LaneExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
+            lane.SwimmerTime = model.SwimmerTime;
 
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
+            laneRP.Update(lane);
+
+            return Ok();
+
+            //if (id != lane.LaneId)
+            //{
+            //    return BadRequest();
+            //}
+
+            //db.Entry(lane).State = EntityState.Modified;
+
+            //try
+            //{
+            //    db.SaveChanges();
+            //}
+            //catch (DbUpdateConcurrencyException)
+            //{
+            //    if (!LaneExists(id))
+            //    {
+            //        return NotFound();
+            //    }
+            //    else
+            //    {
+            //        throw;
+            //    }
+            //}
+
+            //return StatusCode(HttpStatusCode.NoContent);
+        }
 
         // POST: api/Lanes
         [ResponseType(typeof(Lane))]
