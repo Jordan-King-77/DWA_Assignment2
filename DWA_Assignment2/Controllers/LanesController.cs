@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using DWA_Assignment2.Models;
+using Microsoft.AspNet.Identity;
 
 namespace DWA_Assignment2.Controllers
 {
@@ -82,12 +83,25 @@ namespace DWA_Assignment2.Controllers
 
         // POST: api/Lanes
         [ResponseType(typeof(Lane))]
-        public IHttpActionResult PostLane(Lane lane)
+        public IHttpActionResult PostLane(LaneViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+
+            var manager = laneRP.CreateUserStore();
+
+            var swimmer = manager.FindByEmail(model.SwimmerEmail);
+
+            Lane lane = new Lane
+            {
+                EventId = model.EventId,
+                LaneNumber = model.LaneNumber,
+                Heat = model.Heat,
+                Swimmer = swimmer,
+                SwimmerTime = model.Time
+            };
 
             laneRP.Add(lane);
 

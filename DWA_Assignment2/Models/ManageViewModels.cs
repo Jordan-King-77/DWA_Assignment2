@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Web;
 
 namespace DWA_Assignment2.Models
@@ -135,16 +136,99 @@ namespace DWA_Assignment2.Models
     }
 
 
-    //public class LaneViewModel : IValidatableObject
-    //{
-    //    [Display(Name = "Lane Id")]
-    //    public int EventId { get; set; }
+    public class LaneViewModel : IValidatableObject
+    {
+        [JsonIgnore]
+        [DataMember(Name = "Lane Id")]
+        public int LaneId { get; set; }
 
-    //    [Required]
+        [Required(ErrorMessage = "The Event Id is required")]
+        [DataMember(Name = "Event Id")]
+        public int? EventId { get; set; }
 
-    //    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-    //    {
-    //        throw new NotImplementedException();
-    //    }
-    //}
+        [Required(ErrorMessage = "Lane Number is required")]
+        [DataMember(Name = "Lane Number")]
+        public int LaneNumber { get; set; }
+
+        [Required(ErrorMessage = "Swimmer's email is required")]
+        [DataMember(Name = "Swimmer's email")]
+        public string SwimmerEmail { get; set; }
+
+        [DataMember(Name = "Swimmer Time")]
+        public string SwimmerTime { get; set; } = null;
+
+        [JsonIgnore]
+        public TimeSpan Time { get; set; }
+
+        [Required(ErrorMessage = "The Heat is required")]
+        [DataMember(Name = "Heat")]
+        public string Heat { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            IRepository<Event> eveRP = new EventRepository();
+            var manager = eveRP.CreateUserStore();
+
+            var eve = eveRP.Find(EventId);
+
+            if (eve == null)
+            {
+                yield return new ValidationResult("This event does not exist");
+            }
+
+            if (eve != null)
+            {
+                var swimmer = manager.FindByEmail(SwimmerEmail);
+
+                if (swimmer == null)
+                {
+                    yield return new ValidationResult("No swimmer was found with this email");
+                }
+
+                if (swimmer != null)
+                {
+                    DateTime now = DateTime.Today;
+                    int age = now.Year - swimmer.DateOfBirth.Year;
+
+                    if (eve.AgeRange == "Junior" && age > 14)
+                    {
+                        yield return new ValidationResult("Swimmer is over 14");
+                    }
+
+                    if (eve.AgeRange == "Senior" && age < 15)
+                    {
+                        yield return new ValidationResult("Swimmer is under 15");
+                    }
+
+                    if (eve.AgeRange == "Senior" && age > 16)
+                    {
+                        yield return new ValidationResult("Swimmer is over 16");
+                    }
+
+                    if (eve.Gender == "Male" && swimmer.Gender == "Female")
+                    {
+                        yield return new ValidationResult("This event requires: " + eve.Gender + " participants. Swimmer is " + swimmer.Gender);
+                    }
+
+                    if (eve.Gender == "Female" && swimmer.Gender == "Male")
+                    {
+                        yield return new ValidationResult("This event requires: " + eve.Gender + " participants. Swimmer is " + swimmer.Gender);
+                    }
+                }
+
+                TimeSpan laneTime;
+
+                if (!TimeSpan.TryParseExact(SwimmerTime, @"mm\:ss\.ff", null, out laneTime))
+                {
+                    Time = new TimeSpan(23, 59, 59);
+                }
+                else
+                {
+                    Time = laneTime;
+                }
+            }
+
+            eveRP.Dispose();
+        }
+    }
 }
