@@ -93,6 +93,47 @@ namespace DWA_Assignment2.Models
         }
     }
 
+    public class EventViewModel : IValidatableObject
+    {
+        [JsonIgnore]
+        [Display(Name = "Event Id")]
+        public int EventId { get; set; }
+
+        [Required(ErrorMessage = "The Id of the meet this event is for is required")]
+        [Display(Name = "Meet Id")]
+        public int? MeetId { get; set; }
+
+        [Required(ErrorMessage = "The age range is required")]
+        [Display(Name = "Age Range")]
+        public string AgeRange { get; set; }
+
+        [Required(ErrorMessage = "The gender is required")]
+        [Display(Name = "Gender")]
+        public string Gender { get; set; }
+
+        [Required(ErrorMessage = "The distance is required")]
+        [Display(Name = "Distance")]
+        public string Distance { get; set; }
+
+        [Required(ErrorMessage = "The stroke is required")]
+        [Display(Name = "Stroke")]
+        public string Stroke { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            IRepository<Meet> meetRP = new MeetRepository();
+
+            var meet = meetRP.Find(MeetId);
+
+            if (meet == null)
+            {
+                yield return new ValidationResult("The meet Id " + MeetId + " is not a valid meet");
+            }
+
+            meetRP.Dispose();
+        }
+    }
+
 
     //public class LaneViewModel : IValidatableObject
     //{
