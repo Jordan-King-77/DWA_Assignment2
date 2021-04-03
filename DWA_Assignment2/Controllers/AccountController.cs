@@ -351,6 +351,56 @@ namespace DWA_Assignment2.Controllers
             return Ok();
         }
 
+        //GET api/Account/ViewUser
+        [AllowAnonymous]
+        [Route("ViewUser")]
+        public ApplicationUser GetViewUser(string id)
+        {
+            var user = UserManager.FindById(id);
+
+            if(user == null)
+            {
+                return null;
+            }
+
+            return user;
+        }
+
+        //PUT api/Account/EditUser
+        [AllowAnonymous]
+        [Route("EditUser")]
+        public IHttpActionResult PutEditUser(string id, EditUserViewModel model)
+        {
+            var user = UserManager.FindById(id);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            if(model.FirstName != "")
+            {
+                user.FirstName = model.FirstName;
+            }
+            if(model.LastName != "")
+            {
+                user.LastName = model.LastName;
+            }
+            if(model.Address != "")
+            {
+                user.Address = model.Address;
+            }
+
+            var result = UserManager.Update(user);
+
+            if(!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+
         //// GET api/Account/AdminLoggedInTest
         //[Authorize(Roles = "Club Official")]
         //[Route("GetAdminLoggedInTest")]
