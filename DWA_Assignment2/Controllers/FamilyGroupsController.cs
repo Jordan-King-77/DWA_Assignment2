@@ -13,7 +13,8 @@ using Microsoft.AspNet.Identity;
 
 namespace DWA_Assignment2.Controllers
 {
-    [Authorize(Roles = "Club Official")]
+    //[Authorize(Roles = "Club Official")]
+    [RoutePrefix("api/FamilyGroups")]
     public class FamilyGroupsController : ApiController
     {
         private IRepository<FamilyGroup> famGroupRP;
@@ -29,12 +30,16 @@ namespace DWA_Assignment2.Controllers
         }
 
         // GET: api/FamilyGroups
+        [Route("FamilyGroups")]
+        [Authorize(Roles = "Club Official")]
         public List<FamilyGroup> GetFamilyGroups()
         {
             return famGroupRP.ToList();
         }
 
         // GET: api/FamilyGroups/5
+        [Route("FamilyGroup")]
+        [Authorize(Roles = "Club Official")]
         [ResponseType(typeof(FamilyGroup))]
         public IHttpActionResult GetFamilyGroup(int id)
         {
@@ -49,15 +54,26 @@ namespace DWA_Assignment2.Controllers
         }
 
         // PUT: api/FamilyGroups/5
+        [Route("FamilyGroup")]
+        [Authorize(Roles = "Parent")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutFamilyGroup(int id, UpdateFamilyGroupViewModel model)
+        public IHttpActionResult PutFamilyGroup(/*int id, */UpdateFamilyGroupViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
+            var manager = famGroupRP.CreateUserStore();
+            string userId = RequestContext.Principal.Identity.GetUserId();
 
-            var group = famGroupRP.Find(id);
+            var user = manager.FindById(userId);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            var group = famGroupRP.Find(user.FamilyGroupId);
 
             if(group == null)
             {
@@ -79,6 +95,8 @@ namespace DWA_Assignment2.Controllers
         }
 
         // POST: api/FamilyGroups
+        [Route("FamilyGroups")]
+        [Authorize(Roles = "Club Official")]
         [ResponseType(typeof(FamilyGroup))]
         public IHttpActionResult PostFamilyGroup(FamilyGroupViewModel model)
         {
@@ -149,20 +167,31 @@ namespace DWA_Assignment2.Controllers
             return CreatedAtRoute("DefaultApi", new { id = group.GroupId }, group);
         }
 
-        //[Authorize(Roles = "Parent,Swimmer")]
-        //[ResponseType(typeof(FamilyGroup))]
-        //public IHttpActionResult GetMyFamilyGroup()
-        //{
-        //    var manager = famGroupRP.CreateUserStore();
-        //    string userId = RequestContext.Principal.Identity.GetUserId();
+        //GET: api/FamilyGroups/MyFamilyGroup
+        [Route("MyFamilyGroup")]
+        [Authorize(Roles = "Parent,Swimmer")]
+        [ResponseType(typeof(FamilyGroup))]
+        public IHttpActionResult GetMyFamilyGroup()
+        {
+            var manager = famGroupRP.CreateUserStore();
+            string userId = RequestContext.Principal.Identity.GetUserId();
 
-        //    var user = manager.FindById(userId);
+            var user = manager.FindById(userId);
 
-        //    if(user == null)
-        //    {
-        //        return NotFound();
-        //    }
-        //}
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var familyGroup = famGroupRP.Find(user.FamilyGroupId);
+
+            if(familyGroup == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(familyGroup);
+        }
 
         //// DELETE: api/FamilyGroups/5
         //[ResponseType(typeof(FamilyGroup))]
