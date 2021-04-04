@@ -13,6 +13,7 @@ using Microsoft.AspNet.Identity;
 
 namespace DWA_Assignment2.Controllers
 {
+    [Authorize(Roles = "Club Official")]
     public class FamilyGroupsController : ApiController
     {
         private IRepository<FamilyGroup> famGroupRP;
@@ -147,6 +148,21 @@ namespace DWA_Assignment2.Controllers
             
             return CreatedAtRoute("DefaultApi", new { id = group.GroupId }, group);
         }
+
+        //[Authorize(Roles = "Parent,Swimmer")]
+        //[ResponseType(typeof(FamilyGroup))]
+        //public IHttpActionResult GetMyFamilyGroup()
+        //{
+        //    var manager = famGroupRP.CreateUserStore();
+        //    string userId = RequestContext.Principal.Identity.GetUserId();
+
+        //    var user = manager.FindById(userId);
+
+        //    if(user == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //}
 
         //// DELETE: api/FamilyGroups/5
         //[ResponseType(typeof(FamilyGroup))]

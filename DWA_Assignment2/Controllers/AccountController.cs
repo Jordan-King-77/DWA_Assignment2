@@ -352,7 +352,7 @@ namespace DWA_Assignment2.Controllers
         }
 
         //GET api/Account/ViewUser
-        [AllowAnonymous]
+        [Authorize(Roles = "Club Official")]
         [Route("ViewUser")]
         public ApplicationUser GetViewUser(string id)
         {
@@ -367,7 +367,7 @@ namespace DWA_Assignment2.Controllers
         }
 
         //PUT api/Account/EditUser
-        [AllowAnonymous]
+        [Authorize(Roles = "Club Official")]
         [Route("EditUser")]
         public IHttpActionResult PutEditUser(string id, EditUserViewModel model)
         {
@@ -397,6 +397,24 @@ namespace DWA_Assignment2.Controllers
             {
                 return GetErrorResult(result);
             }
+
+            return Ok();
+        }
+
+        //PUT api/Account/ArchiveUser
+        [Authorize(Roles = "Club Official")]
+        [Route("ArchiveUser")]
+        public IHttpActionResult PutArchiveUser(string id)
+        {
+            var user = UserManager.FindById(id);
+
+            if(user == null)
+            {
+                return NotFound();
+            }
+
+            UserManager.SetLockoutEnabled(user.Id, true);
+            UserManager.SetLockoutEndDate(user.Id, DateTime.MaxValue);
 
             return Ok();
         }

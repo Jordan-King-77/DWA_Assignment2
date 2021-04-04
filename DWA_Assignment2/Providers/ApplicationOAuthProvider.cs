@@ -39,6 +39,12 @@ namespace DWA_Assignment2.Providers
                 return;
             }
 
+            if (user.LockoutEndDateUtc != null && user.LockoutEndDateUtc > DateTime.Now)
+            {
+                context.SetError("User Locked", "User is Locked,please contact to system administrator");
+                return;
+            }
+
             ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(userManager,
                OAuthDefaults.AuthenticationType);
             ClaimsIdentity cookiesIdentity = await user.GenerateUserIdentityAsync(userManager,
