@@ -273,11 +273,18 @@ namespace DWA_Assignment2.Models
         [JsonIgnore]
         public DateTime? EndDateDT { get; set; }
 
+        [JsonIgnore]
         [Display(Name = "Swimmer Id")]
         public string SwimmerId { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            if(Name == "") { Name = null; }
+            if (Venue == "") { Venue = null; }
+            if (StartDateString == "") { StartDateString = null; }
+            if (EndDateString == "") { EndDateString = null; }
+            if (SwimmerId == "") { SwimmerId = null; }
+
             if (StartDateString != null)
             {
                 if (!DateTime.TryParse(StartDateString, out DateTime tempStartDate))
@@ -313,7 +320,7 @@ namespace DWA_Assignment2.Models
         }
     }
 
-    public class SearchEventViewModel
+    public class SearchEventViewModel : IValidatableObject
     {
 
         [Display(Name = "Event Age Range")]
@@ -328,12 +335,27 @@ namespace DWA_Assignment2.Models
         [Display(Name = "Event Swim Stroke")]
         public string SwimStroke { get; set; }
 
+        [JsonIgnore]
         [Display(Name = "Swimmer Id")]
         public string SwimmerId { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (AgeRange == "") { AgeRange = null; }
+            if (Gender == "") { Gender = null; }
+            if (Distance == "") { Distance = null; }
+            if (SwimStroke == "") { SwimStroke = null; }
+
+            if(AgeRange == "1000000000")
+            {
+                yield return new ValidationResult("");
+            }
+        }
     }
 
     public class SearchLanesViewModel : IValidatableObject
     {
+        [JsonIgnore]
         [Display(Name = "Swimmer Id")]
         public string SwimmerId { get; set; }
 
@@ -355,6 +377,11 @@ namespace DWA_Assignment2.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            if(FirstName == "") { FirstName = null; }
+            if(LastName == "") { LastName = null; }
+            if (DOBStartDateString == "") { DOBStartDateString = null; }
+            if (DOBEndDateString == "") { DOBEndDateString = null; }
+
             if (DOBStartDateString != null)
             {
                 if (!DateTime.TryParse(DOBStartDateString, out DateTime tempDOBStartDate))

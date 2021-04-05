@@ -86,5 +86,47 @@ namespace DWA_Assignment2.Controllers
 
             return lanes.ToList();
         }
+
+        [AllowAnonymous]
+        [Route("SearchMeets")]
+        public IHttpActionResult GetSearchMeets(SearchMeetViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var meets = meetRP.Search(model);
+
+                return Ok(meets.ToList());
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [AllowAnonymous]
+        [Route("SearchEvents")]
+        public IHttpActionResult GetSearchEvents(SearchEventViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var events = eveRP.Search(model);
+
+                return Ok(events.ToList());
+            }
+
+            return BadRequest(ModelState);
+        }
+
+        [AllowAnonymous]
+        [Route("SearchSwimmers")]
+        public IHttpActionResult GetSearchSwimmers(SearchLanesViewModel model)
+        {
+            if(ModelState.IsValid)
+            {
+                var swimmers = laneRP.Search(model);
+
+                return Ok(swimmers.ToList());
+            }
+
+            return BadRequest(ModelState);
+        }
     }
 }
