@@ -17,14 +17,14 @@ namespace DWA_Assignment2.Controllers
     [RoutePrefix("api/FamilyGroups")]
     public class FamilyGroupsController : ApiController
     {
-        private IRepository<FamilyGroup> famGroupRP;
+        private IRepository<FamilyGroup, SearchFamilyGroupViewModel> famGroupRP;
 
         public FamilyGroupsController()
         {
             famGroupRP = new FamilyGroupRepository();
         }
 
-        public FamilyGroupsController(IRepository<FamilyGroup> repository)
+        public FamilyGroupsController(IRepository<FamilyGroup, SearchFamilyGroupViewModel> repository)
         {
             famGroupRP = repository;
         }

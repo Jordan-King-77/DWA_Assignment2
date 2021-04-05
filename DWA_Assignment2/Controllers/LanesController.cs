@@ -15,14 +15,14 @@ namespace DWA_Assignment2.Controllers
 {
     public class LanesController : ApiController
     {
-        private IRepository<Lane> laneRP;
+        private IRepository<Lane, SearchLanesViewModel> laneRP;
 
         public LanesController()
         {
             laneRP = new LaneRepository();
         }
 
-        public LanesController(IRepository<Lane> repository)
+        public LanesController(IRepository<Lane, SearchLanesViewModel> repository)
         {
             laneRP = repository;
         }
@@ -47,6 +47,7 @@ namespace DWA_Assignment2.Controllers
         }
 
         // PUT: api/Lanes/5
+        [Authorize(Roles = "Club Official")]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutLane(int id, UpdateSwimmerTimeViewModel model)
         {
@@ -95,6 +96,7 @@ namespace DWA_Assignment2.Controllers
         }
 
         // POST: api/Lanes
+        [Authorize(Roles = "Club Official")]
         [ResponseType(typeof(Lane))]
         public IHttpActionResult PostLane(LaneViewModel model)
         {

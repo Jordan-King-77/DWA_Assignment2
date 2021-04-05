@@ -8,7 +8,7 @@ using System.Web;
 
 namespace DWA_Assignment2.Models
 {
-    public class FamilyGroupRepository : IRepository<FamilyGroup>
+    public class FamilyGroupRepository : IRepository<FamilyGroup, SearchFamilyGroupViewModel>
     {
         private ApplicationDbContext context = new ApplicationDbContext();
 
@@ -39,6 +39,11 @@ namespace DWA_Assignment2.Models
         public FamilyGroup Find(int? Id)
         {
             return context.FamilyGroups.Find(Id);
+        }
+
+        public IEnumerable<FamilyGroup> Search(SearchFamilyGroupViewModel Search)
+        {
+            throw new NotImplementedException();
         }
 
         public List<FamilyGroup> ToList()

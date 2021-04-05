@@ -122,7 +122,7 @@ namespace DWA_Assignment2.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            IRepository<Meet> meetRP = new MeetRepository();
+            IRepository<Meet, SearchMeetViewModel> meetRP = new MeetRepository();
 
             var meet = meetRP.Find(MeetId);
 
@@ -166,7 +166,7 @@ namespace DWA_Assignment2.Models
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            IRepository<Event> eveRP = new EventRepository();
+            IRepository<Event, SearchEventViewModel> eveRP = new EventRepository();
             var manager = eveRP.CreateUserStore();
 
             var eve = eveRP.Find(EventId);
@@ -254,4 +254,143 @@ namespace DWA_Assignment2.Models
             }
         }
     }
+
+    public class SearchMeetViewModel : IValidatableObject
+    {
+        [Display(Name = "Meet Name")]
+        public string Name { get; set; }
+
+        [Display(Name = "Meet Venue Name")]
+        public string Venue { get; set; }
+
+        [Display(Name = "Meet Start Date")]
+        public string StartDateString { get; set; }
+        [JsonIgnore]
+        public DateTime? StartDateDT { get; set; }
+
+        [Display(Name = "Meet End Date")]
+        public string EndDateString { get; set; }
+        [JsonIgnore]
+        public DateTime? EndDateDT { get; set; }
+
+        [Display(Name = "Swimmer Id")]
+        public string SwimmerId { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (StartDateString != null)
+            {
+                if (!DateTime.TryParse(StartDateString, out DateTime tempStartDate))
+                {
+                    yield return new ValidationResult("Start date format could not be parsed");
+                }
+                else
+                {
+                    StartDateDT = tempStartDate;
+                }
+            }
+
+            if (EndDateString != null)
+            {
+                if (!DateTime.TryParse(EndDateString, out DateTime tempEndDate))
+                {
+                    yield return new ValidationResult("End date format could not be parsed");
+                }
+                else
+                {
+                    EndDateDT = tempEndDate;
+                }
+            }
+
+            if (StartDateDT != null && EndDateDT == null)
+            {
+                yield return new ValidationResult("Please enter an end date");
+            }
+            if (EndDateDT != null && StartDateDT == null)
+            {
+                yield return new ValidationResult("Please enter a start date");
+            }
+        }
+    }
+
+    public class SearchEventViewModel
+    {
+
+        [Display(Name = "Event Age Range")]
+        public string AgeRange { get; set; }
+
+        [Display(Name = "Event Gender")]
+        public string Gender { get; set; }
+
+        [Display(Name = "Distance")]
+        public string Distance { get; set; }
+
+        [Display(Name = "Event Swim Stroke")]
+        public string SwimStroke { get; set; }
+
+        [Display(Name = "Swimmer Id")]
+        public string SwimmerId { get; set; }
+    }
+
+    public class SearchSwimmerViewModel : IValidatableObject
+    {
+        [Display(Name = "Swimmer Id")]
+        public string SwimmerId { get; set; }
+
+        [Display(Name = "Swimmer First Name")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "Swimmer Last Name")]
+        public string LastName { get; set; }
+
+        [Display(Name = "Swimmer Date of Birth Start Date")]
+        public string DOBStartDateString { get; set; }
+        [JsonIgnore]
+        public DateTime? DOBStartDateDT { get; set; }
+
+        [Display(Name = "Swimmer Date of Birth End Date")]
+        public string DOBEndDateString { get; set; }
+        [JsonIgnore]
+        public DateTime? DOBEndDateDT { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (DOBStartDateString != null)
+            {
+                if (!DateTime.TryParse(DOBStartDateString, out DateTime tempDOBStartDate))
+                {
+                    yield return new ValidationResult("Swimer DOB start date could not be parsed");
+                }
+                else
+                {
+                    DOBStartDateDT = tempDOBStartDate;
+                }
+            }
+
+            if (DOBEndDateString != null)
+            {
+                if (!DateTime.TryParse(DOBEndDateString, out DateTime tempDOBEndDate))
+                {
+                    yield return new ValidationResult("Swimmer DOB end date could not be parsed");
+                }
+                else
+                {
+                    DOBEndDateDT = tempDOBEndDate;
+                }
+            }
+
+            if (DOBStartDateDT != null && DOBEndDateDT == null)
+            {
+                yield return new ValidationResult("Please enter an end date");
+            }
+            if (DOBEndDateDT != null && DOBStartDateDT == null)
+            {
+                yield return new ValidationResult("Please enter a start date");
+            }
+        }
+    }
+
+    public class SearchFamilyGroupViewModel { }
+
+    public class SearchLanesViewModel { }
 }

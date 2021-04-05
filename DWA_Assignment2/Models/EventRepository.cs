@@ -8,7 +8,7 @@ using System.Web;
 
 namespace DWA_Assignment2.Models
 {
-    public class EventRepository : IRepository<Event>
+    public class EventRepository : IRepository<Event, SearchEventViewModel>
     {
         private ApplicationDbContext context = new ApplicationDbContext();
 
@@ -39,6 +39,11 @@ namespace DWA_Assignment2.Models
         public Event Find(int? Id)
         {
             return context.Events.Find(Id);
+        }
+
+        public IEnumerable<Event> Search(SearchEventViewModel Search)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Event> ToList()

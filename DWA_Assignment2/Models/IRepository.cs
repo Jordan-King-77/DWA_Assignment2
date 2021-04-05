@@ -6,7 +6,7 @@ using System.Web;
 
 namespace DWA_Assignment2.Models
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<T, S> where T : class, new() where S : class
     {
         void Add(T entity);
         void Dispose();
@@ -15,6 +15,6 @@ namespace DWA_Assignment2.Models
         void Update(T entity);
         UserManager<ApplicationUser> CreateUserStore();
         bool Count(int? id);
-        //IEnumerable<T> Search(SearchViewModel Search);
+        IEnumerable<T> Search(S Search);
     }
 }

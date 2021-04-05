@@ -14,14 +14,14 @@ namespace DWA_Assignment2.Controllers
 {
     public class EventsController : ApiController
     {
-        private IRepository<Event> eveRP;
+        private IRepository<Event, SearchEventViewModel> eveRP;
 
         public EventsController()
         {
             eveRP = new EventRepository();
         }
 
-        public EventsController(IRepository<Event> repository)
+        public EventsController(IRepository<Event, SearchEventViewModel> repository)
         {
             eveRP = repository;
         }
@@ -81,6 +81,7 @@ namespace DWA_Assignment2.Controllers
         //}
 
         // POST: api/Events
+        [Authorize(Roles = "Club Official")]
         [ResponseType(typeof(Event))]
         public IHttpActionResult PostEvent(EventViewModel model/*Event @event*/)
         {

@@ -14,14 +14,14 @@ namespace DWA_Assignment2.Controllers
 {
     public class MeetsController : ApiController
     {
-        private IRepository<Meet> meetRP;
+        private IRepository<Meet, SearchMeetViewModel> meetRP;
 
         public MeetsController()
         {
             meetRP = new MeetRepository();
         }
 
-        public MeetsController(IRepository<Meet> repository)
+        public MeetsController(IRepository<Meet, SearchMeetViewModel> repository)
         {
             meetRP = repository;
         }
@@ -81,6 +81,7 @@ namespace DWA_Assignment2.Controllers
         //}
 
         // POST: api/Meets
+        [Authorize(Roles = "Club Official")]
         [ResponseType(typeof(Meet))]
         public IHttpActionResult PostMeet(MeetViewModel model)
         {

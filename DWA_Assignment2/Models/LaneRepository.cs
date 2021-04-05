@@ -8,7 +8,7 @@ using System.Web;
 
 namespace DWA_Assignment2.Models
 {
-    public class LaneRepository : IRepository<Lane>
+    public class LaneRepository : IRepository<Lane, SearchLanesViewModel>
     {
         private ApplicationDbContext context = new ApplicationDbContext();
 
@@ -39,6 +39,11 @@ namespace DWA_Assignment2.Models
         public Lane Find(int? Id)
         {
             return context.Lanes.Find(Id);
+        }
+
+        public IEnumerable<Lane> Search(SearchLanesViewModel Search)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Lane> ToList()
