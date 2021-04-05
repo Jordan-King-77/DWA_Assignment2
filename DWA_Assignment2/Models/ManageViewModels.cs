@@ -332,7 +332,7 @@ namespace DWA_Assignment2.Models
         public string SwimmerId { get; set; }
     }
 
-    public class SearchSwimmerViewModel : IValidatableObject
+    public class SearchLanesViewModel : IValidatableObject
     {
         [Display(Name = "Swimmer Id")]
         public string SwimmerId { get; set; }
@@ -391,6 +391,4 @@ namespace DWA_Assignment2.Models
     }
 
     public class SearchFamilyGroupViewModel { }
-
-    public class SearchLanesViewModel { }
 }

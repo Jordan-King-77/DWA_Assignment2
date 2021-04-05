@@ -45,41 +45,6 @@ namespace DWA_Assignment2.Controllers
             return Ok(meet);
         }
 
-        //// PUT: api/Meets/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutMeet(int id, Meet meet)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != meet.MeetId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(meet).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!MeetExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
         // POST: api/Meets
         [Authorize(Roles = "Club Official")]
         [ResponseType(typeof(Meet))]
@@ -104,36 +69,6 @@ namespace DWA_Assignment2.Controllers
             meetRP.Add(meet);
 
             return CreatedAtRoute("DefaultApi", new { id = meet.MeetId }, meet);
-        }
-
-        //// DELETE: api/Meets/5
-        //[ResponseType(typeof(Meet))]
-        //public IHttpActionResult DeleteMeet(int id)
-        //{
-        //    Meet meet = db.Meets.Find(id);
-        //    if (meet == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.Meets.Remove(meet);
-        //    db.SaveChanges();
-
-        //    return Ok(meet);
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        private bool MeetExists(int id)
-        {
-            return meetRP.Count(id);
         }
     }
 }

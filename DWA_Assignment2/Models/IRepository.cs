@@ -14,7 +14,6 @@ namespace DWA_Assignment2.Models
         List<T> ToList();
         void Update(T entity);
         UserManager<ApplicationUser> CreateUserStore();
-        bool Count(int? id);
         IEnumerable<T> Search(S Search);
     }
 }

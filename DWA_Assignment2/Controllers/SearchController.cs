@@ -1,4 +1,5 @@
 ﻿using DWA_Assignment2.Models;
+using Microsoft.AspNet.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,15 +9,18 @@ using System.Web.Http;
 
 namespace DWA_Assignment2.Controllers
 {
-    [AllowAnonymous]
     [RoutePrefix("api/Search")]
     public class SearchController : ApiController
     {
         private IRepository<Meet, SearchMeetViewModel> meetRP;
+        private IRepository<Event, SearchEventViewModel> eveRP;
+        private IRepository<Lane, SearchLanesViewModel> laneRP;
 
         public SearchController()
         {
             meetRP = new MeetRepository();
+            eveRP = new EventRepository();
+            laneRP = new LaneRepository();
         }
 
         public SearchController(IRepository<Meet, SearchMeetViewModel> repository)
@@ -24,15 +28,63 @@ namespace DWA_Assignment2.Controllers
             meetRP = repository;
         }
 
+        public SearchController(IRepository<Event, SearchEventViewModel> repository)
+        {
+            eveRP = repository;
+        }
+
+        public SearchController(IRepository<Lane, SearchLanesViewModel> repository)
+        {
+            laneRP = repository;
+        }
+
 
         [Authorize(Roles = "Swimmer")]
         [Route("MyMeets")]
-        public IHttpActionResult GetMyMeets()
+        public List<Meet> GetMyMeets()
         {
-            
+            string userId = RequestContext.Principal.Identity.GetUserId();
 
-            //ToDo: Implement the rest of the search features
-            return Ok();
+            SearchMeetViewModel model = new SearchMeetViewModel
+            {
+                SwimmerId = userId
+            };
+
+            var meets = meetRP.Search(model);
+
+            return meets.ToList();
+        }
+
+        [Authorize(Roles = "Swimmer")]
+        [Route("MyEvents")]
+        public List<Event> GetMyEvents()
+        {
+            string userId = RequestContext.Principal.Identity.GetUserId();
+
+            SearchEventViewModel model = new SearchEventViewModel
+            {
+                SwimmerId = userId
+            };
+
+            var events = eveRP.Search(model);
+
+            return events.ToList();
+        }
+
+        [Authorize(Roles = "Swimmer")]
+        [Route("MyResults")]        
+        public List<Lane> GetMyResults()
+        {
+            string userId = RequestContext.Principal.Identity.GetUserId();
+
+            SearchLanesViewModel model = new SearchLanesViewModel
+            {
+                SwimmerId = userId
+            };
+
+            var lanes = laneRP.Search(model);
+
+            return lanes.ToList();
         }
     }
 }

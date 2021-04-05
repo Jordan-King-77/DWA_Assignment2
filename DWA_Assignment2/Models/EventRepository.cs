@@ -18,11 +18,6 @@ namespace DWA_Assignment2.Models
             context.SaveChanges();
         }
 
-        public bool Count(int? id)
-        {
-            return context.Events.Count(e => e.EventId == id) > 0;
-        }
-
         public UserManager<ApplicationUser> CreateUserStore()
         {
             var store = new UserStore<ApplicationUser>(context);
@@ -43,7 +38,17 @@ namespace DWA_Assignment2.Models
 
         public IEnumerable<Event> Search(SearchEventViewModel Search)
         {
-            throw new NotImplementedException();
+            var model =
+                from m in context.Events
+                orderby m.EventId descending
+                where (Search.SwimmerId == null || m.Lanes.Any(l => l.Swimmer.Id == Search.SwimmerId))
+                where (Search.AgeRange == null || m.AgeRange == Search.AgeRange)
+                where (Search.Gender == null || m.Gender == Search.Gender)
+                where (Search.Distance == null || m.Distance.StartsWith(Search.Distance))
+                where (Search.SwimStroke == null || m.Stroke.StartsWith(Search.SwimStroke))
+                select m;
+
+            return model;
         }
 
         public List<Event> ToList()

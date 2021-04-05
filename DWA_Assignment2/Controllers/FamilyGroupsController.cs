@@ -13,7 +13,6 @@ using Microsoft.AspNet.Identity;
 
 namespace DWA_Assignment2.Controllers
 {
-    //[Authorize(Roles = "Club Official")]
     [RoutePrefix("api/FamilyGroups")]
     public class FamilyGroupsController : ApiController
     {
@@ -57,7 +56,7 @@ namespace DWA_Assignment2.Controllers
         [Route("FamilyGroup")]
         [Authorize(Roles = "Parent")]
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutFamilyGroup(/*int id, */UpdateFamilyGroupViewModel model)
+        public IHttpActionResult PutFamilyGroup(UpdateFamilyGroupViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -191,36 +190,6 @@ namespace DWA_Assignment2.Controllers
             }
 
             return Ok(familyGroup);
-        }
-
-        //// DELETE: api/FamilyGroups/5
-        //[ResponseType(typeof(FamilyGroup))]
-        //public IHttpActionResult DeleteFamilyGroup(int id)
-        //{
-        //    FamilyGroup familyGroup = db.FamilyGroups.Find(id);
-        //    if (familyGroup == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.FamilyGroups.Remove(familyGroup);
-        //    db.SaveChanges();
-
-        //    return Ok(familyGroup);
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        private bool FamilyGroupExists(int id)
-        {
-            return famGroupRP.Count(id);
         }
         
         private ApplicationUser IsChildValid(UserManager<ApplicationUser> manager, string email)

@@ -18,11 +18,6 @@ namespace DWA_Assignment2.Models
             context.SaveChanges();
         }
 
-        public bool Count(int? id)
-        {
-            return context.Meets.Count(e => e.MeetId == id) > 0;
-        }
-
         public UserManager<ApplicationUser> CreateUserStore()
         {
             var store = new UserStore<ApplicationUser>(context);

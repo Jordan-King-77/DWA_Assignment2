@@ -18,11 +18,6 @@ namespace DWA_Assignment2.Models
             context.SaveChanges();
         }
 
-        public bool Count(int? id)
-        {
-            return context.Lanes.Count(e => e.LaneId == id) > 0;
-        }
-
         public UserManager<ApplicationUser> CreateUserStore()
         {
             var store = new UserStore<ApplicationUser>(context);
@@ -43,7 +38,16 @@ namespace DWA_Assignment2.Models
 
         public IEnumerable<Lane> Search(SearchLanesViewModel Search)
         {
-            throw new NotImplementedException();
+            var model =
+                from m in context.Lanes
+                orderby m.LaneId descending
+                where (Search.SwimmerId == null || m.Swimmer.Id == Search.SwimmerId)
+                where (Search.FirstName == null || m.Swimmer.FirstName.StartsWith(Search.FirstName))
+                where (Search.LastName == null || m.Swimmer.LastName.StartsWith(Search.LastName))
+                where (Search.DOBStartDateDT == null && Search.DOBEndDateDT == null || m.Swimmer.DateOfBirth > Search.DOBStartDateDT && m.Swimmer.DateOfBirth < Search.DOBEndDateDT)
+                select m;
+
+            return model;
         }
 
         public List<Lane> ToList()

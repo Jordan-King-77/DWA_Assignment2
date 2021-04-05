@@ -45,45 +45,10 @@ namespace DWA_Assignment2.Controllers
             return Ok(@event);
         }
 
-        //// PUT: api/Events/5
-        //[ResponseType(typeof(void))]
-        //public IHttpActionResult PutEvent(int id, Event @event)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != @event.EventId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    db.Entry(@event).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        db.SaveChanges();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!EventExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return StatusCode(HttpStatusCode.NoContent);
-        //}
-
         // POST: api/Events
         [Authorize(Roles = "Club Official")]
         [ResponseType(typeof(Event))]
-        public IHttpActionResult PostEvent(EventViewModel model/*Event @event*/)
+        public IHttpActionResult PostEvent(EventViewModel model)
         {
             if (!ModelState.IsValid)
             {
@@ -106,35 +71,5 @@ namespace DWA_Assignment2.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = eve.EventId }, eve);
         }
-
-        //// DELETE: api/Events/5
-        //[ResponseType(typeof(Event))]
-        //public IHttpActionResult DeleteEvent(int id)
-        //{
-        //    Event @event = db.Events.Find(id);
-        //    if (@event == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.Events.Remove(@event);
-        //    db.SaveChanges();
-
-        //    return Ok(@event);
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        //private bool EventExists(int id)
-        //{
-        //    return eveRP.Count(id);
-        //}
     }
 }

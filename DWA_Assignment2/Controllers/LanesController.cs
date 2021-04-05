@@ -68,31 +68,6 @@ namespace DWA_Assignment2.Controllers
             laneRP.Update(lane);
 
             return Ok();
-
-            //if (id != lane.LaneId)
-            //{
-            //    return BadRequest();
-            //}
-
-            //db.Entry(lane).State = EntityState.Modified;
-
-            //try
-            //{
-            //    db.SaveChanges();
-            //}
-            //catch (DbUpdateConcurrencyException)
-            //{
-            //    if (!LaneExists(id))
-            //    {
-            //        return NotFound();
-            //    }
-            //    else
-            //    {
-            //        throw;
-            //    }
-            //}
-
-            //return StatusCode(HttpStatusCode.NoContent);
         }
 
         // POST: api/Lanes
@@ -122,35 +97,5 @@ namespace DWA_Assignment2.Controllers
 
             return CreatedAtRoute("DefaultApi", new { id = lane.LaneId }, lane);
         }
-
-        //// DELETE: api/Lanes/5
-        //[ResponseType(typeof(Lane))]
-        //public IHttpActionResult DeleteLane(int id)
-        //{
-        //    Lane lane = db.Lanes.Find(id);
-        //    if (lane == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    db.Lanes.Remove(lane);
-        //    db.SaveChanges();
-
-        //    return Ok(lane);
-        //}
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        db.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
-
-        //private bool LaneExists(int id)
-        //{
-        //    return laneRP.Count(id);
-        //}
     }
 }
