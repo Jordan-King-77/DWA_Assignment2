@@ -16,8 +16,6 @@ namespace DWA_Assignment2_UnitTests
         public void ReturnSpecificMeet_Ok()
         {
             var controller = new MeetsController(new FakeMeetRepository());
-            //controller.Request = new HttpRequestMessage();
-            //controller.Configuration = new HttpConfiguration();
 
             IHttpActionResult actionResult = controller.GetMeet(3);
 
@@ -28,37 +26,16 @@ namespace DWA_Assignment2_UnitTests
         public void ReturnSpecificMeet_NotFound()
         {
             var controller = new MeetsController(new FakeMeetRepository(false));
-            //controller.Request = new HttpRequestMessage();
-            //controller.Configuration = new HttpConfiguration();
 
             IHttpActionResult actionResult = controller.GetMeet(-1);
 
             Assert.IsInstanceOfType(actionResult, typeof(NotFoundResult));
         }
 
-        //[TestMethod]
-        //public void ReturnSpecificMeet_NotFound()
-        //{
-        //    var controller = new MeetsController(new FakeMeetRepository());
-        //    IHttpActionResult actionResult = controller.GetMeet(-1);
-
-        //    if ((Type)actionResult == typeof(NotFoundResult))
-        //    {
-        //        // Assert pass
-        //        Assert.IsInstanceOfType(actionResult, typeof(NotFoundResult));
-        //    }
-        //    else
-        //    {
-        //        // Assert fail
-        //    }
-        //}
-
         [TestMethod]
         public void PostMeet_Valid()
         {
             var controller = new MeetsController(new FakeMeetRepository());
-            //controller.Request = new HttpRequestMessage();
-            //controller.Configuration = new HttpConfiguration();
 
             MeetViewModel m = new MeetViewModel
             {
@@ -75,8 +52,6 @@ namespace DWA_Assignment2_UnitTests
         public void PostMeet_Invalid()
         {
             var controller = new MeetsController(new FakeMeetRepository());
-            //controller.Request = new HttpRequestMessage();
-            //controller.Configuration = new HttpConfiguration();
 
             controller.ModelState.AddModelError("Date", "Date format could not be parsed");
 
@@ -92,8 +67,6 @@ namespace DWA_Assignment2_UnitTests
         public void GetMeets()
         {
             var controller = new MeetsController(new FakeMeetRepository());
-            //controller.Request = new HttpRequestMessage();
-            //controller.Configuration = new HttpConfiguration();
 
             var result = controller.GetMeets();
 
